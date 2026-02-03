@@ -2,23 +2,28 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Ceilement - קונפיגורטור תקרות</title>
     <script src="data.js"></script>
     <style>
         :root { --gold: #b08d67; --dark: #000; --cream: #fdf5e6; --wa-green: #25D366; }
-        body, html { margin: 0; padding: 0; background: #000; color: white; font-family: sans-serif; height: 100vh; overflow: hidden; }
+        body, html { 
+            margin: 0; padding: 0; background: #000; color: white; 
+            font-family: sans-serif; 
+            height: 100vh; height: 100svh; /* פתרון לבעיית הלחצנים בנייד */
+            overflow: hidden; 
+        }
         
-        #app-container { display: flex; flex-direction: column; height: 100vh; }
+        #app-container { display: flex; flex-direction: column; height: 100%; }
 
-        .header { height: 65px; display: flex; justify-content: center; align-items: center; background: #000; padding: 5px 15px; border-bottom: 1px solid #222; flex-shrink: 0; position: relative; }
+        .header { height: 60px; display: flex; justify-content: center; align-items: center; background: #000; padding: 5px 15px; border-bottom: 1px solid #222; flex-shrink: 0; position: relative; }
         .header img { max-width: 80%; max-height: 100%; object-fit: contain; }
 
         .info-btn { 
             position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
             width: 28px; height: 28px; border: 1px solid var(--gold); border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            color: var(--gold); font-family: serif; font-style: italic; font-weight: bold; cursor: pointer;
+            color: var(--gold); font-weight: bold; cursor: pointer;
         }
 
         .preview-section { flex-grow: 1; position: relative; display: flex; justify-content: center; align-items: center; background: #000; overflow: hidden; }
@@ -27,9 +32,9 @@
         .watermark { position: absolute; z-index: 100; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.1; pointer-events: none; width: 50%; }
 
         #price-tag { 
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: rgba(0,0,0,0.7); padding: 6px 20px; border-radius: 30px;
-            color: var(--gold); font-size: 22px; font-weight: bold; z-index: 60; border: 1px solid var(--gold);
+            position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.7); padding: 5px 15px; border-radius: 30px;
+            color: var(--gold); font-size: 20px; font-weight: bold; z-index: 60; border: 1px solid var(--gold);
         }
 
         .controls-section { background: #1a1a1a; border-top: 1px solid var(--gold); flex-shrink: 0; }
@@ -37,28 +42,30 @@
         .tab-btn { flex: 1; padding: 12px; border: none; background: none; color: #777; font-weight: bold; cursor: pointer; }
         .tab-btn.active { color: var(--gold); border-bottom: 3px solid var(--gold); }
 
-        .options-scroller { display: flex; overflow-x: auto; padding: 10px 15px; gap: 12px; height: 130px; align-items: center; box-sizing: border-box; }
-        .option-card { min-width: 90px; height: 110px; text-align: center; padding: 5px; border-radius: 12px; border: 2px solid transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .options-scroller { display: flex; overflow-x: auto; padding: 10px; gap: 10px; height: 120px; align-items: center; box-sizing: border-box; }
+        .option-card { min-width: 85px; height: 100px; text-align: center; padding: 5px; border-radius: 10px; border: 2px solid transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .card-cream { background: var(--cream); color: #333; }
         .card-dark { background: #222; color: #fff; }
-        .option-card img { width: 55px; height: 55px; object-fit: contain; }
-        .card-dark img { width: 80px; height: 80px; }
-        .option-card.selected { border-color: var(--gold); transform: scale(1.02); }
-        .option-card span { font-size: 10px; display: block; margin-top: 5px; font-weight: 800; }
+        .option-card img { width: 50px; height: 50px; object-fit: contain; }
+        .card-dark img { width: 70px; height: 70px; }
+        .option-card.selected { border-color: var(--gold); }
+        .option-card span { font-size: 10px; display: block; margin-top: 4px; font-weight: 800; }
 
-        .action-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; background: #000; flex-shrink: 0; }
+        /* אזור הכפתורים עם מרווח ביטחון לתחתית המסך */
+        .action-bar { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; 
+            padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); /* מרווח ביטחון */
+            background: #000; flex-shrink: 0; 
+        }
         .btn { padding: 14px; border-radius: 8px; border: none; font-weight: bold; font-size: 14px; cursor: pointer; text-align: center; }
         .btn-save { background: var(--gold); color: black; }
         .btn-sec { background: #333; color: white; }
         .btn-lead { background: var(--wa-green); color: white; display: none; grid-column: span 2; font-size: 18px; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .modal-content { background: white; color: black; padding: 25px; border-radius: 15px; max-width: 400px; margin: 5% auto; position: relative; }
-        .modal-content h3 { margin-top: 0; color: var(--gold); border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .modal-content { background: white; color: black; padding: 20px; border-radius: 15px; max-width: 400px; margin: 5% auto; position: relative; }
         .close-modal { position: absolute; left: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #999; }
-        
         input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-
         .remove-btn { position: absolute; top: -8px; right: -8px; background: #ff4444; color: white; border: 2px solid white; border-radius: 50%; width: 24px; height: 24px; font-weight: bold; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
@@ -96,32 +103,30 @@
     </div>
 </div>
 
-<div id="info-modal" class="modal" style="background: rgba(0,0,0,0.8);">
+<div id="info-modal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="toggleInfo()">&times;</span>
         <h3>ברוכים הבאים לסילמנט</h3>
-        <div style="line-height: 1.6; font-size: 14px;">
+        <div style="line-height: 1.6; font-size: 14px; text-align: right;">
             <p><b>תקרות מוכנות מבית אלימנט</b></p>
-            <p>הקונפיגורטור מאפשר לכם לעצב את התקרה הצפה שלכם (מידות: 1.22*2.44) בהתאמה אישית מלאה.</p>
-            <p><b>למה לבחור בסילמנט?</b></p>
+            <p>עיצוב תקרה צפה (1.22*2.44) בהתאמה אישית.</p>
             <ul>
-                <li><b>הכל כלול:</b> המחיר המוצג כולל את גוף התקרה, התאורה, ההובלה וההתקנה המקצועית בביתכם.</li>
-                <li><b>התקנה נקייה ומהירה:</b> כ-30 דקות עבודה בלבד, במינימום לכלוך.</li>
-                <li><b>ללא כאב ראש:</b> התקנה יבשה - אין צורך בצבע או שפכטל בבית הלקוח.</li>
+                <li>המחיר כולל תאורה, הובלה והתקנה.</li>
+                <li>התקנה נקייה (כ-30 דק') ללא לכלוך.</li>
+                <li>אין צורך בצבע או שפכטל.</li>
             </ul>
-            <p>צרו את השילוב שלכם ושלחו אלינו לקבלת הצעה סופית!</p>
         </div>
     </div>
 </div>
 
-<div id="lead-modal" class="modal" style="background: rgba(0,0,0,0.85);">
+<div id="lead-modal" class="modal">
     <div class="modal-content">
         <h3>פרטי התקשרות</h3>
-        <p id="order-desc" style="font-size: 13px; color: #666; margin-bottom: 10px;"></p>
+        <p id="order-desc" style="font-size: 13px; color: #666;"></p>
         <input type="text" id="cust-name" placeholder="שם מלא">
         <input type="tel" id="cust-phone" placeholder="מספר טלפון">
         <textarea id="cust-notes" placeholder="הערות נוספות..."></textarea>
-        <button class="btn btn-save" style="width:100%; margin-top:10px; font-size: 18px;" onclick="submitOrder()">שלח הזמנה בוואטסאפ</button>
+        <button class="btn btn-save" style="width:100%; margin-top:10px;" onclick="submitOrder()">שלח בוואטסאפ</button>
         <button onclick="closeLeadForm()" style="width:100%; background:none; border:none; color:red; margin-top:10px;">ביטול</button>
     </div>
 </div>
@@ -136,7 +141,6 @@
 
 <script>
     let currentChoices = { base: null, mashrabiya: null, profile: null };
-    // שינוי ל-sessionStorage כדי שלא יזכור ביציאה מהדף
     let savedComparisons = JSON.parse(sessionStorage.getItem('myExhibitions') || '[]');
     const WHATSAPP_NUM = "972583231599";
     const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbx_7JV2CBJVO8ykMNAIEzlTucfJaRX7ySAsr-Up1Vf_4oFb8lY9foRZcdz070311L_a/exec";
@@ -154,18 +158,20 @@
         container.innerHTML = '';
         const cardClass = (cat !== 'base') ? 'card-dark' : 'card-cream';
 
-        myProducts.filter(p => p.category === cat).forEach(p => {
-            const card = document.createElement('div');
-            card.className = `option-card ${cardClass} ${currentChoices[cat]?.name === p.name ? 'selected' : ''}`;
-            card.onclick = () => {
-                currentChoices[cat] = p;
-                updateLayer(cat, p.image);
-                updatePrice();
-                showTab(cat);
-            };
-            card.innerHTML = `<img src="${p.image}"><span>${p.name}</span>`;
-            container.appendChild(card);
-        });
+        if (typeof myProducts !== 'undefined') {
+            myProducts.filter(p => p.category === cat).forEach(p => {
+                const card = document.createElement('div');
+                card.className = `option-card ${cardClass} ${currentChoices[cat]?.name === p.name ? 'selected' : ''}`;
+                card.onclick = () => {
+                    currentChoices[cat] = p;
+                    updateLayer(cat, p.image);
+                    updatePrice();
+                    showTab(cat);
+                };
+                card.innerHTML = `<img src="${p.image}"><span>${p.name}</span>`;
+                container.appendChild(card);
+            });
+        }
     }
 
     function updateLayer(cat, src) {
@@ -184,7 +190,7 @@
         savedComparisons.push({...currentChoices, id: Date.now(), totalPrice: document.getElementById('price-tag').innerText});
         sessionStorage.setItem('myExhibitions', JSON.stringify(savedComparisons));
         updateCompCount();
-        alert("השילוב נשמר להשוואה!");
+        alert("נשמר להשוואה!");
     }
 
     function updateCompCount() {
@@ -194,9 +200,7 @@
     function toggleComparison() {
         const modal = document.getElementById('comparison-modal');
         modal.style.display = (modal.style.display !== 'block') ? 'block' : 'none';
-        if (modal.style.display === 'block') {
-            renderComparisonGrid();
-        }
+        if (modal.style.display === 'block') { renderComparisonGrid(); }
     }
 
     function renderComparisonGrid() {
@@ -222,7 +226,6 @@
     }
 
     function removeComp(id) {
-        event.stopPropagation();
         savedComparisons = savedComparisons.filter(i => i.id !== id);
         sessionStorage.setItem('myExhibitions', JSON.stringify(savedComparisons));
         updateCompCount();
@@ -263,16 +266,12 @@
         };
 
         fetch(GOOGLE_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-
         const msg = `הזמנה חדשה מסילמנט:\nשם: ${name}\nטלפון: ${phone}\nשילוב: ${data.בסיס} + ${data.משרביה}\nמחיר: ${data.מחיר}\nהערות: ${notes}`;
         window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`); 
         closeLeadForm();
     }
 
-    window.onload = () => {
-        updateCompCount();
-        showTab('base');
-    };
+    window.onload = () => { updateCompCount(); showTab('base'); };
 </script>
 </body>
 </html>
