@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" width="400" height="160">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8B6914;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#D4A843;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#F0C96B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B08D3A;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="goldGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0C96B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B6914;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="160" fill="#000000"/>
+
+  <!-- Decorative ceiling panel icon - geometric lattice mark -->
+  <g transform="translate(30, 30)">
+    <!-- Outer frame -->
+    <rect x="0" y="0" width="100" height="100" fill="none" stroke="url(#goldGrad)" stroke-width="1.5"/>
+    <!-- Inner frame -->
+    <rect x="10" y="10" width="80" height="80" fill="none" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
+    <!-- Diagonal cross lines -->
+    <line x1="0" y1="0" x2="100" y2="100" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.4"/>
+    <line x1="100" y1="0" x2="0" y2="100" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.4"/>
+    <!-- Center diamond -->
+    <polygon points="50,18 82,50 50,82 18,50" fill="none" stroke="url(#goldGrad)" stroke-width="1.2"/>
+    <!-- Center dot -->
+    <circle cx="50" cy="50" r="4" fill="url(#goldGrad2)"/>
+    <!-- Corner dots -->
+    <circle cx="10" cy="10" r="2" fill="url(#goldGrad2)" opacity="0.7"/>
+    <circle cx="90" cy="10" r="2" fill="url(#goldGrad2)" opacity="0.7"/>
+    <circle cx="10" cy="90" r="2" fill="url(#goldGrad2)" opacity="0.7"/>
+    <circle cx="90" cy="90" r="2" fill="url(#goldGrad2)" opacity="0.7"/>
+    <!-- Mid-point marks -->
+    <circle cx="50" cy="10" r="1.5" fill="url(#goldGrad2)" opacity="0.5"/>
+    <circle cx="50" cy="90" r="1.5" fill="url(#goldGrad2)" opacity="0.5"/>
+    <circle cx="10" cy="50" r="1.5" fill="url(#goldGrad2)" opacity="0.5"/>
+    <circle cx="90" cy="50" r="1.5" fill="url(#goldGrad2)" opacity="0.5"/>
+  </g>
+
+  <!-- Brand name -->
+  <text x="152" y="82" 
+    font-family="Georgia, 'Times New Roman', serif" 
+    font-size="42" 
+    font-weight="400"
+    letter-spacing="6"
+    fill="url(#goldGrad)"
+    dominant-baseline="middle">CEILEMENT</text>
+
+  <!-- Tagline -->
+  <text x="153" y="112" 
+    font-family="Georgia, 'Times New Roman', serif" 
+    font-size="11" 
+    font-weight="400"
+    letter-spacing="5"
+    fill="#b08d3a"
+    opacity="0.75"
+    dominant-baseline="middle">ARCHITECTURAL CEILING DESIGN</text>
+
+  <!-- Thin gold rule under tagline -->
+  <line x1="152" y1="126" x2="370" y2="126" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
+</svg>
