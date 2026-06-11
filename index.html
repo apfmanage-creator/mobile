@@ -89,7 +89,7 @@
     <div class="controls-section">
         <div class="tabs">
             <button class="tab-btn active" id="tab-base" onclick="showTab('base')">Base</button>
-            <button class="tab-btn" id="tab-mash" onclick="showTab('mashrabiya')">Lattice</button>
+            <button class="tab-btn" id="tab-mash" onclick="showTab('mashrabiya')">Mashrabia</button>
             <button class="tab-btn" id="tab-light" onclick="showTab('profile')">Lighting</button>
         </div>
         <div id="options-container" class="options-scroller"></div>
@@ -253,19 +253,23 @@
         const notes = document.getElementById('cust-notes').value;
         if(!name || !phone) return alert("Please enter your name and phone number");
 
+        const baseName    = (currentChoices.base && currentChoices.base.name) ? currentChoices.base.name : "None";
+        const latticeName = (currentChoices.mashrabiya && currentChoices.mashrabiya.name) ? currentChoices.mashrabiya.name : "None";
+        const lightName   = (currentChoices.profile && currentChoices.profile.name) ? currentChoices.profile.name : "None";
+
         const data = {
             "Date": new Date().toLocaleString(),
             "Name": name,
             "Phone": phone,
-            "Base": currentChoices.base.name,
-            "Lattice": currentChoices.mashrabiya?.name || "None",
-            "Lighting": currentChoices.profile?.name || "None",
+            "Base": baseName,
+            "Mashrabia": latticeName,
+            "Lighting": lightName,
             "Price": document.getElementById('price-tag').innerText,
             "Notes": notes
         };
 
         fetch(GOOGLE_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-        const msg = `New Ceilement Order:\nName: ${name}\nPhone: ${phone}\nBase: ${data.Base}\nLattice: ${data.Lattice}\nLighting: ${data.Lighting}\nPrice: ${data.Price}\nNotes: ${notes}`;
+        const msg = `New Ceilement Order:\nName: ${name}\nPhone: ${phone}\nBase: ${data.Base}\nMashrabia: ${data.Mashrabia}\nLighting: ${data.Lighting}\nPrice: ${data.Price}\nNotes: ${notes}`;
         window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`); 
         closeLeadForm();
     }
