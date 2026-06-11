@@ -183,7 +183,7 @@
 
   function updatePrice() {
     const total = Object.values(currentChoices).reduce((sum, i) => sum + (i?.price || 0), 0);
-    document.getElementById('price-tag').innerText = total.toLocaleString() + " ₪";
+    document.getElementById('price-tag').innerText = total.toLocaleString() + " $";
 }
     function saveForComparison() {
         if(!currentChoices.base) return alert("נא לבחור בסיס קודם");
