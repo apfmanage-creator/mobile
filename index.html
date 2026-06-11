@@ -265,7 +265,7 @@
         };
 
         fetch(GOOGLE_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-        const msg = `New Ceilement Order:\nName: ${name}\nPhone: ${phone}\nCombo: ${data.Base} + ${data.Lattice}\nPrice: ${data.Price}\nNotes: ${notes}`;
+        const msg = `New Ceilement Order:\nName: ${name}\nPhone: ${phone}\nBase: ${data.Base}\nLattice: ${data.Lattice}\nLighting: ${data.Lighting}\nPrice: ${data.Price}\nNotes: ${notes}`;
         window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`); 
         closeLeadForm();
     }
